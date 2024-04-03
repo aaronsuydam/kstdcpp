@@ -9,11 +9,7 @@ However.
 Being stubborn, as I can be sometimes, I thought "what if I wrote my program in C++ and then just exposed a C api to the kernel?"
 So I looked into it, and it turns out that in kernel space, you can't use C++ standard library features, period, again for the 
 aforementioned reasons. I think this puts me as an (admittedly beginner) kernel-space developer at a serious disadvantage. 
-No smart pointers. No vectors. No algorithms. No std::copy/std::move, to name a few.
-
-None of the building blocks of some of the best C++ work that I've done so far. None of the peace of mind that comes from having
-a tried and true, tested to heaven and back library on which to build arguably the most important pieces of software in the
-world, second to the kernel: drivers.
+No smart pointers. No vectors. No algorithms. No std::copy/std::move, to name a few.None of the building blocks of some of the best C++ work that I've done so far. None of the peace of mind that comes from having a tried and true, tested to heaven and back library on which to build arguably the most important pieces of software in the world, second to the kernel: drivers.
 
 ## PLEASE READ
 
