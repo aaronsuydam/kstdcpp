@@ -4,6 +4,18 @@
 
 namespace kstd {
 
+
+    template <typename T> struct remove_reference { typedef T type; };
+    template <typename T> struct remove_reference<T&> { typedef T type; };
+    template <typename T> struct remove_reference<T&&> { typedef T type; };
+
+    template <typename T>
+    typename remove_reference<T>::type&& move(T&& t) noexcept
+    {
+        return static_cast<typename remove_reference<T>::type&&>(t);
+    }
+
+
     template <typename T>
     class kunique_ptr
     {
@@ -41,6 +53,11 @@ namespace kstd {
         }
 
         T* operator->()
+        {
+            return data;
+        }
+
+        T* get()
         {
             return data;
         }
@@ -85,6 +102,11 @@ namespace kstd {
         T& operator[](size_t index)
         {
             return data[index];
+        }
+
+        T* get() const
+        {
+            return data;
         }
     };
 }

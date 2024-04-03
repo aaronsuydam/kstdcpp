@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <cstddef>
 
 namespace kstd {
     struct nothrow_t {};
@@ -8,8 +8,8 @@ namespace kstd {
 
 
 
-void* operator new(std::size_t size);
-void* operator new[](size_t size);
+void* operator new(std::size_t size) noexcept;
+void* operator new[](size_t size) noexcept;
 
 void operator delete(void* pointer) noexcept;
 void operator delete[](void* pointer) noexcept;
