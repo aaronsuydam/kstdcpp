@@ -1,5 +1,6 @@
 #include "memory.hpp"
 #include <cstring>
+#include <linux/kernel.h>
 
 namespace kstd
 {
@@ -37,5 +38,19 @@ namespace kstd
             return this->length;
         }
 
+    };
+
+    string to_string(int number)
+    {
+        auto buf = make_kunique<char[]>(21);     
+        snprintf(buf.get(), 21, %d, number);
+        return string(buf.get());
+    }
+
+    string to_string(size_t number)
+    {
+        auto buf = make_kunique<char[]>(21);     
+        snprintf(buf.get(), 21, %zu, number);
+        return string(buf.get());
     }
 }
