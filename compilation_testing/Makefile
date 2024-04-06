@@ -2,14 +2,13 @@
 obj-m := your_module.o
 
 KERNEL_DIR := /lib/modules/$(shell uname -r)/build
-KERNEL_INCLUDE := -I$(KERNEL_DIR)/arch/x86/include -I$(KERNEL_DIR)/arch/x86/include/generated  -I$(KERNEL_DIR)/include -I$(KERNEL_DIR)/ubuntu/include
 
 # C++ parts - Specify your C++ source files here
 CPP_SOURCES := test.cpp
 CPP_OBJECTS := $(CPP_SOURCES:.cpp=.o)
 CPP_FLAGS := -Wall -Wextra -nostdlib -fno-exceptions -fno-rtti 
 
-
+CXX := g++
 
 # Rule to compile C++ files
 $(CPP_OBJECTS): %.o: %.cpp

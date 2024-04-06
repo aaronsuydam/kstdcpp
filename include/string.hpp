@@ -7,9 +7,33 @@ namespace kstd
 
     size_t strlen(const char *str) 
     {
-        const char *s;
+        const char* s;
         for (s = str; *s; ++s) {}
         return s - str;
+    }
+
+    char* strcpy(char* dest, const char* src)
+    {
+        char* ret = dest;
+        while ((*dest++ = *src++));
+        return ret;
+    }
+
+    char* strcat(char* dest, const char* src) 
+    {
+        char* save = dest;
+
+        // Move `dest` pointer to the end of the destination string
+        while (*dest) {
+            dest++;
+        }
+
+        // Copy `src` to the end of `dest`, including the null terminator
+        while ((*dest++ = *src++)) {
+            // Empty loop body; the work is done in the condition.
+        }
+
+        return save; // Return the original `dest` pointer
     }
 
     class string
@@ -48,17 +72,17 @@ namespace kstd
 
     };
 
-    string to_string(int number)
-    {
-        auto buf = make_kunique<char[]>(21);     
-        snprintf(buf.get(), 21, %d, number);
-        return string(buf.get());
-    }
+    // string to_string(int number)
+    // {
+    //     auto buf = make_kunique<char[]>(21);     
+    //     snprintf(buf.get(), 21, %d, number);
+    //     return string(buf.get());
+    // }
 
-    string to_string(size_t number)
-    {
-        auto buf = make_kunique<char[]>(21);     
-        snprintf(buf.get(), 21, %zu, number);
-        return string(buf.get());
-    }
+    // string to_string(size_t number)
+    // {
+    //     auto buf = make_kunique<char[]>(21);     
+    //     snprintf(buf.get(), 21, %zu, number);
+    //     return string(buf.get());
+    // }
 }

@@ -2,7 +2,6 @@
 #include "memory.hpp"
 #include "algorithm.hpp"
 #include "optional.hpp"
-#include <cmath>
 
 template <typename T>
 class kvector {

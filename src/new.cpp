@@ -1,11 +1,9 @@
 #include "../include/new.hpp"
-extern "C" {
-    #include "linux/slab.h"
-}
+#include "../include/wrappers/kmem.h"
 
 void* operator new(size_t size) noexcept
 {
-    return kmalloc(size, GFP_KERNEL);
+    return kmalloc_wrapper(size);
 }
 
 void* operator new[](size_t size) noexcept
@@ -18,7 +16,7 @@ void operator delete(void* pointer) noexcept
 {
     if(pointer != nullptr)
     {
-        kfree(pointer);
+        kfree_wrapper(pointer);
     }
 }
 

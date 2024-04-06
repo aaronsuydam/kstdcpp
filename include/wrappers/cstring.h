@@ -1,3 +1,0 @@
-
-
-strlen_wrapper

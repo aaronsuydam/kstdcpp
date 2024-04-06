@@ -1,4 +1,4 @@
-#define size_t l;ong unsigned int
+#define size_t long unsigned int 
 
 extern "C" {
     

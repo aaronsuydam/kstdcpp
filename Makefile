@@ -1,24 +1,23 @@
 # The name of your C++ library module
 obj-m += kstdcpp.o
 
+KERNELDIR := /lib/modules/$(shell uname -r)/build
+
 # Source files for your C++ library
-# Assuming 'new.cpp' is located under a 'src' directory.
-KSTD_CPP_SOURCES := src/new.cpp
-
-# Convert your .cpp files to .o object files to be included in kstdcpp-objs
-kstdcpp-objs := $(KSTD_CPP_SOURCES:.cpp=.o)
-
-# Path to the kernel source
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+CPP_SOURCES := src/new.cpp
+CPP_OBJECTS := $(CPP_SOURCES:.cpp=.o)
+CXXFLAGS := -Wall -Wextra -std=c++20 -nostdlib -fno-exceptions -fno-rtti
 
 # Use g++ as the compiler for C++ files
 CXX := g++
-# Global C++ compile flags
-GLOBAL_CXXFLAGS := -std=gnu++17 $(LINUXINCLUDE)  -nostdlib -fno-exceptions -fno-rtti
 
-# Rule to compile C++ source files
-$(src)/%.o: $(src)/%.cpp
-	$(CXX) $(GLOBAL_CXXFLAGS) -c $< -o $@
+
+# Rule to compile C++ files
+$(CPP_OBJECTS): %.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Custom target for C++ compilation
+cpp-objs: $(CPP_OBJECTS)
 
 # Default make command
 all:
@@ -27,3 +26,6 @@ all:
 # Clean command
 clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+
+# Tell the kernel build system about your C++ object files
+kstdcpp-objs := $(CPP_OBJECTS) other_module_parts.o

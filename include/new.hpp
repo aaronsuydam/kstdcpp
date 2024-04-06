@@ -1,5 +1,5 @@
 
-#define size_t unsigned long long
+#define size_t long unsigned int
 
 namespace kstd {
     struct nothrow_t {};
