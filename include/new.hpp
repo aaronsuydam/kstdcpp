@@ -1,4 +1,8 @@
-#include <cstddef>
+
+extern "C"
+{
+    #include <stddef.h>
+}
 
 namespace kstd {
     struct nothrow_t {};
@@ -8,7 +12,7 @@ namespace kstd {
 
 
 
-void* operator new(std::size_t size) noexcept;
+void* operator new(size_t size) noexcept;
 void* operator new[](size_t size) noexcept;
 
 void operator delete(void* pointer) noexcept;

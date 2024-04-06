@@ -27,3 +27,11 @@ But if that interests you, feel free to use this code as a starting point. That'
 Hope this makes your life easier.
 
 Aaron
+
+
+
+
+
+# Notes to Self
+Deleted enum {false = 0, true = 1} from stddef.h
+Deleted typedef _Bool bool; from types.h

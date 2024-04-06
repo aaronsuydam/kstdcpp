@@ -1,33 +1,29 @@
-# The name of your static library
-LIB_NAME := libkstdcpp.a
+# The name of your C++ library module
+obj-m += kstdcpp.o
 
-# Compiler and archiver
+# Source files for your C++ library
+# Assuming 'new.cpp' is located under a 'src' directory.
+KSTD_CPP_SOURCES := src/new.cpp
+
+# Convert your .cpp files to .o object files to be included in kstdcpp-objs
+kstdcpp-objs := $(KSTD_CPP_SOURCES:.cpp=.o)
+
+# Path to the kernel source
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
+# Use g++ as the compiler for C++ files
 CXX := g++
-AR := ar
+# Global C++ compile flags
+GLOBAL_CXXFLAGS := -std=gnu++17 $(LINUXINCLUDE)  -nostdlib -fno-exceptions -fno-rtti
 
-# Include paths, add more with -I if needed
-INCLUDES := -I/usr/src/linux-headers-6.2.0-39-generic/include
+# Rule to compile C++ source files
+$(src)/%.o: $(src)/%.cpp
+	$(CXX) $(GLOBAL_CXXFLAGS) -c $< -o $@
 
-# Compiler flags
-# -fno-exceptions and -fno-rtti are important for kernel space
-CXXFLAGS := -Wall -Wextra -fnostdlib -fno-exceptions -fno-rtti -g $(INCLUDES)
+# Default make command
+all:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
-# Source files
-SOURCES := $(wildcard *.cpp)
-
-# Object files
-OBJECTS := $(SOURCES:.cpp=.o)
-
-# Targets
-.PHONY: all clean
-
-all: $(LIB_NAME)
-
-$(LIB_NAME): $(OBJECTS)
-	$(AR) rcs $@ $^
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
+# Clean command
 clean:
-	rm -f $(OBJECTS) $(LIB_NAME)
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean

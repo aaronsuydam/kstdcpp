@@ -1,19 +1,17 @@
-project('kstd_cpp', 'cpp', 'c',
-  default_options : ['cpp_exceptions=false', 'b_staticpic=true'])
+# Define the source directory and build directory for kernel components
+# Getting the running kernel version using run_command
+uname_r = run_command('uname', '-r').stdout().strip()
+kernel_src_dir = '/lib/modules/' + uname_r + '/build'
+kernel_build_dir = meson.current_source_dir()
 
-kernel_version = '6.2.0-39-generic'
-build_root = '/lib/modules/' + kernel_version + '/build'
+# Define the command to invoke the Makefile for the C++ kernel library
+# Adjust the paths as necessary
+make_cmd = ['make', '-C', kernel_src_dir, 'M=' + kernel_build_dir, 'modules']
 
-# Specify kernel headers and include directories
-linux_main_inc = include_directories('/usr/src/linux-headers-6.2.0-39-generic/include')
-
-
-# Specify source files
-sources = ['src/new.cpp']
-
-library('kstd_cpp', sources,
-  include_directories : [linux_main_inc],
-  c_args : ['-fno-rtti'],
-  cpp_args : ['-fno-exceptions', '-fno-rtti'],
-  link_args : [build_root + '/scripts/module-common.lds'],
+# Use a custom target to invoke the Make command
+# This will build your C++ kernel library using its Makefile
+kstdcpp = custom_target('kstdcpp_lib',
+    output : 'kstdcpp.o',
+    command : make_cmd,
+    build_by_default : true
 )

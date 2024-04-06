@@ -1,12 +1,14 @@
 #include "../include/new.hpp"
-#include "linux/slab.h"
+extern "C" {
+    #include "linux/slab.h"
+}
 
-void* operator new(std::size_t size) noexcept
+void* operator new(size_t size) noexcept
 {
     return kmalloc(size, GFP_KERNEL);
 }
 
-void* operator new[](std::size_t size) noexcept
+void* operator new[](size_t size) noexcept
 {
     return operator new(size);
 }
