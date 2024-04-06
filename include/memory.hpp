@@ -15,6 +15,13 @@ namespace kstd {
         return static_cast<typename remove_reference<T>::type&&>(t);
     }
 
+    template<typename T>
+    T&& forward(typename std::remove_reference<T>::type&& arg) noexcept 
+    {
+        return static_cast<T&&>(arg);
+    }
+
+
 
     template <typename T>
     class kunique_ptr
@@ -63,6 +70,7 @@ namespace kstd {
         }
     };
 
+    template <typename T> class kunique_ptr;
     template <typename T>
     class kunique_ptr<T[]>
     {
@@ -109,4 +117,16 @@ namespace kstd {
             return data;
         }
     };
+
+    template <typename T, typename... Args>
+    kunique_ptr<T> make_kunique(Args&&... args)
+    {
+        return kstd::kunique_ptr<T>(new T(kstd::forward<Args>(args)...));
+    }
+
+    template <typename T>
+    kunique_ptr<T> make_kunique(size_t size)
+    {
+        return kstd::kunique_ptr<T[]>(new T[size]);
+    }
 }
