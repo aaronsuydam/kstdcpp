@@ -1,8 +1,5 @@
 
-extern "C"
-{
-    #include <stddef.h>
-}
+#define size_t unsigned long long
 
 namespace kstd {
     struct nothrow_t {};

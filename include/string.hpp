@@ -1,9 +1,17 @@
 #include "memory.hpp"
-#include <cstring>
-#include <linux/kernel.h>
+// #include "wrappers/cstring.h"
+// #include "wrappers/kernel.h"
 
 namespace kstd
 {
+
+    size_t strlen(const char *str) 
+    {
+        const char *s;
+        for (s = str; *s; ++s) {}
+        return s - str;
+    }
+
     class string
     {
 
