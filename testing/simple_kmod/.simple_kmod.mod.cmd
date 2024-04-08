@@ -1,0 +1,1 @@
+savedcmd_/home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/simple_kmod.mod := printf '%s\n'   helper.o | awk '!x[$$0]++ { print("/home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/"$$0) }' > /home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/simple_kmod.mod

@@ -1,9 +1,8 @@
 #ifdef __cplusplus
-#define size_t long unsigned int
 extern "C" {
 #endif
 
-size_t helper_function();
+size_t helper_function(void);
 
 #ifdef __cplusplus
 }

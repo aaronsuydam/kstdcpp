@@ -1,0 +1,1 @@
+savedcmd_/home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/modules.order := {   echo /home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/simple_kmod.o; :; } > /home/aaron-suydam/dev/kstdcpp/testing/simple_kmod/modules.order
