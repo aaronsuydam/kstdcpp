@@ -3,7 +3,7 @@
 
 namespace kstd {
     struct nothrow_t {};
-    extern const nothrow_t nothrow = {};
+    inline extern const nothrow_t nothrow = {};
 }
 
 

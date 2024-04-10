@@ -1,13 +1,8 @@
 # The name of your kernel module
-MODULE_NAME := simple_kmod
+MODULE_NAME := complex_kmod
 $(MODULE_NAME)-y := $(MODULE_NAME)combined.o
 
 KERNELDIR := /lib/modules/$(shell uname -r)/build
-
-# Source files for your C++ library
-CPP_SOURCES := helper.cpp
-CPP_OBJECTS := $(CPP_SOURCES:.cpp=.o)
-CXXFLAGS := -Wall -Wextra -std=c++20 -nostdlib -fno-exceptions -fno-rtti -fno-builtin -ffreestanding -fpermissive
 
 srctree = $(KERNELDIR)
 objtree = $(pwd)
@@ -48,10 +43,19 @@ KBUILD_CFLAGS += -Wno-stringop-truncation -Wno-stringop-overflow -Wno-restrict -
 KBUILD_CFLAGS += -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -fno-strict-overflow
 KBUILD_CFLAGS += -fno-stack-check -fconserve-stack -Werror=date-time -Werror=incompatible-pointer-types
 KBUILD_CFLAGS += -Werror=designated-init -Wno-packed-not-aligned -g -gdwarf-5  -fsanitize=bounds-strict
-KBUILD_CFLAGS += -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"simple_kmod"'
-KBUILD_CFLAGS += -DKBUILD_MODNAME='"simple_kmod"' -D__KBUILD_MODNAME=kmod_simple_kmod
+KBUILD_CFLAGS += -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"complex_kmod"'
+KBUILD_CFLAGS += -DKBUILD_MODNAME='"complex_kmod"' -D__KBUILD_MODNAME=kmod_complex_kmod
 
-C_SOURCES := simple_kmod.c
+KSTD_CPP_SRCDIR = /home/aaron-suydam/dev/kstdcpp/src/
+MODULE_SRCDIR = /home/aaron-suydam/dev/kstdcpp/testing/complex_kmod/
+
+# Source files for your C++ library
+CPP_SOURCES := $(MODULE_SRCDIR)/helper.cpp $(KSTD_CPP_SRCDIR)/new.cpp
+CPP_OBJECTS := $(CPP_SOURCES:.cpp=.o)
+CXXFLAGS := -Wall -Wextra -std=c++20 -nostdlib -fno-exceptions -fno-rtti -fno-builtin -ffreestanding -fpermissive
+
+
+C_SOURCES := complex_kmod.c $(KSTD_CPP_SRCDIR)/kmem.c
 C_OBJECTS := $(C_SOURCES:.c=.o)
 C_FLAGS := $(LINUXINCLUDE) $(KBUILD_CFLAGS)
 
@@ -62,12 +66,12 @@ CC := gcc
 # Rule to compile C++ files
 $(CPP_OBJECTS): %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-	echo '# Dummy cmd file' > .$@.cmd
+	echo '# Dummy cpp cmd file' > $@.cmd
 
 # Rule to compile C++ files
 $(C_OBJECTS): %.o: %.c
 	$(CC) $(C_FLAGS) -c $< -o $@
-	echo '# Dummy cmd file' > .$@.cmd
+	echo '# Dummy c cmd file' > $@.cmd
 
 # Custom target for C++ compilation
 cpp-objs: $(CPP_OBJECTS)
@@ -93,8 +97,8 @@ all: $(MODULE_NAME).ko
 
 
 clean:
-	rm -f *.o *.ko *.mod.c .*.cmd Module.symvers modules.order *.mod
-
+	rm -f *.o *.ko *.mod.c .*.cmd Module.symvers modules.order *.o.cmd *.mod
+	cd $(KSTD_CPP_SRCDIR) && rm -f *.o *.ko *.mod.c .*.cmd *.o.cmd Module.symvers modules.order *.mod
 
 dummy:
 	@echo "KBUILD_CFLAGS = $(KBUILD_CFLAGS)"

@@ -2,7 +2,8 @@
 extern "C" {
 #endif
 
-size_t helper_function(void);
+size_t cpp_initialization(void);
+size_t cpp_destruction(void);
 
 #ifdef __cplusplus
 }
