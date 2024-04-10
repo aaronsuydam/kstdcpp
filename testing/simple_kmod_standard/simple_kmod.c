@@ -1,6 +1,6 @@
 #include <linux/init.h>
 #include <linux/module.h>
-#include "helper.h"
+
 
 
 MODULE_LICENSE("GPL");
@@ -12,8 +12,8 @@ static int __init simplechar_init(void) {
     printk(KERN_INFO "SimpleChar: Initializing and making a C++ call\n");
 
     // Call the C++ function
-    size_t result = helper_function();
-    printk(KERN_INFO "SimpleChar: C++ call returned: %zu\n", result);
+    //size_t result = helper_function();
+    //printk(KERN_INFO "SimpleChar: C++ call returned: %zu\n", result);
 
     return 0; // Indicate successful initialization
 }
