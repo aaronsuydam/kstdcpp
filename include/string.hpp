@@ -58,6 +58,7 @@ namespace kstd
             strcpy(new_data.get(), data.get()); // copy the first string
             strcat(new_data.get(), str.data.get()); // concatenate the second string
             data = kstd::move(new_data); // move the new data to the current data
+            return *this;
         };
 
         const char* c_str() const

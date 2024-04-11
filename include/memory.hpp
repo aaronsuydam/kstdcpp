@@ -16,7 +16,7 @@ namespace kstd {
     }
 
     template<typename T>
-    T&& forward(typename std::remove_reference<T>::type&& arg) noexcept 
+    T&& forward(typename remove_reference<T>::type&& arg) noexcept 
     {
         return static_cast<T&&>(arg);
     }
