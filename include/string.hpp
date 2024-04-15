@@ -51,6 +51,14 @@ namespace kstd
             strcpy(data.get(), str);
         };
 
+        string& operator=(const char* data)
+        {
+            size_t new_string_length = strlen(data) + 1;
+            kstd::kunique_ptr<char[]> new_data(new char[new_string_length]);
+            strcpy(new_data.get(), data);
+            this->data = kstd::move(new_data);
+        }
+
         string& operator+=(const string& str)
         {
             size_t new_string_length = strlen(data.get()) + strlen(str.data.get()) + 1;

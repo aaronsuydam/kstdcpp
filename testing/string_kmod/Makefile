@@ -1,5 +1,5 @@
 # The name of your kernel module
-MODULE_NAME := complex_kmod
+MODULE_NAME := string_kmod
 $(MODULE_NAME)-y := $(MODULE_NAME)combined.o
 
 KERNELDIR := /lib/modules/$(shell uname -r)/build
@@ -43,19 +43,19 @@ KBUILD_CFLAGS += -Wno-stringop-truncation -Wno-stringop-overflow -Wno-restrict -
 KBUILD_CFLAGS += -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -fno-strict-overflow
 KBUILD_CFLAGS += -fno-stack-check -fconserve-stack -Werror=date-time -Werror=incompatible-pointer-types
 KBUILD_CFLAGS += -Werror=designated-init -Wno-packed-not-aligned -g -gdwarf-5  -fsanitize=bounds-strict
-KBUILD_CFLAGS += -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"complex_kmod"'
-KBUILD_CFLAGS += -DKBUILD_MODNAME='"complex_kmod"' -D__KBUILD_MODNAME=kmod_complex_kmod
+KBUILD_CFLAGS += -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"$(MODULE_NAME)"'
+KBUILD_CFLAGS += -DKBUILD_MODNAME='"$(MODULE_NAME)"' -D__KBUILD_MODNAME=$(MODULE_NAME)
 
 KSTD_CPP_SRCDIR = /home/aaron-suydam/dev/kstdcpp/src/
-MODULE_SRCDIR = /home/aaron-suydam/dev/kstdcpp/testing/complex_kmod/
+MODULE_SRCDIR = /home/aaron-suydam/dev/kstdcpp/testing/string_kmod/
 
 # Source files for your C++ library
 CPP_SOURCES := $(MODULE_SRCDIR)/helper.cpp $(KSTD_CPP_SRCDIR)/new.cpp
 CPP_OBJECTS := $(CPP_SOURCES:.cpp=.o)
-CXXFLAGS := -Wall -Wextra -std=c++20 -nostdlib -fno-exceptions -fno-rtti -fno-builtin -ffreestanding -fpermissive
+CXXFLAGS := -Wall -Wextra -std=c++20 -nostdlib -fno-exceptions -fno-rtti -fno-builtin -ffreestanding -fpermissive -fno-use-cxa-atexit
 
 
-C_SOURCES := complex_kmod.c $(KSTD_CPP_SRCDIR)/kmem.c
+C_SOURCES := $(MODULE_NAME).c $(KSTD_CPP_SRCDIR)/kmem.c
 C_OBJECTS := $(C_SOURCES:.c=.o)
 C_FLAGS := $(LINUXINCLUDE) $(KBUILD_CFLAGS)
 
